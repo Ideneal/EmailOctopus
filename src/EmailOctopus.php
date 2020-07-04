@@ -11,9 +11,11 @@
 namespace Ideneal\EmailOctopus;
 
 
+use Ideneal\EmailOctopus\Entity\Contact;
 use Ideneal\EmailOctopus\Entity\MailingList;
 use Ideneal\EmailOctopus\Http\ApiClient;
-use Ideneal\EmailOctopus\Serializer\MailingListDeserializer;
+use Ideneal\EmailOctopus\Serializer\ContactSerializer;
+use Ideneal\EmailOctopus\Serializer\MailingListSerializer;
 
 class EmailOctopus
 {
@@ -46,7 +48,7 @@ class EmailOctopus
             'limit' => $limit,
             'page'  => $page,
         ]);
-        return MailingListDeserializer::deserialize($response);
+        return MailingListSerializer::deserialize($response);
     }
 
     /**
@@ -59,22 +61,20 @@ class EmailOctopus
     public function getMailingList(string $id): MailingList
     {
         $response = $this->client->get('lists/' . $id);
-        return MailingListDeserializer::deserialize($response);
+        return MailingListSerializer::deserialize($response);
     }
 
     /**
      * Creates a mailing list.
      *
-     * @param string $name
+     * @param MailingList $list
      *
      * @return MailingList
      */
-    public function createMailingList(string $name): MailingList
+    public function createMailingList(MailingList $list): MailingList
     {
-        $response = $this->client->post('lists', [], [
-            'name' => $name,
-        ]);
-        return MailingListDeserializer::deserialize($response);
+        $response = $this->client->post('lists', [], MailingListSerializer::serialize($list));
+        return MailingListSerializer::deserialize($response);
     }
 
     /**
@@ -86,19 +86,74 @@ class EmailOctopus
      */
     public function updateMailingList(MailingList $list): MailingList
     {
-        $response = $this->client->put('lists/' . $list->getId(), [], [
-            'name' => $list->getName(),
-        ]);
-        return MailingListDeserializer::deserialize($response);
+        $response = $this->client->put('lists/' . $list->getId(), [], MailingListSerializer::serialize($list));
+        return MailingListSerializer::deserialize($response);
     }
 
     /**
      * Deletes a mailing list.
      *
-     * @param string $id
+     * @param MailingList $list
      */
-    public function deleteMailingList(string $id): void
+    public function deleteMailingList(MailingList $list): void
     {
-        $this->client->delete('lists/' . $id);
+        $this->client->delete('lists/' . $list->getId());
+    }
+
+    /**
+     * Returns all contact of a mailing list.
+     *
+     * @param MailingList $list
+     * @param int $limit
+     * @param int $page
+     *
+     * @return Contact[]
+     */
+    public function getContactsByMailingList(MailingList $list, int $limit = 100, int $page = 1): array
+    {
+        $response = $this->client->get('lists/' . $list->getId() . '/contacts', [
+            'limit' => $limit,
+            'page'  => $page,
+        ]);
+        return ContactSerializer::deserialize($response);
+    }
+
+    /**
+     * Returns a contact of a mailing list.
+     *
+     * @param MailingList $list
+     * @param string $contactId
+     *
+     * @return Contact
+     */
+    public function getContactByMailingList(MailingList $list, string $contactId): Contact
+    {
+        $response = $this->client->get('lists/' . $list->getId() . '/contacts/' . $contactId);
+        return ContactSerializer::deserialize($response);
+    }
+
+    /**
+     * Creates a contact of a mailing list.
+     *
+     * @param Contact $contact
+     * @param MailingList $list
+     *
+     * @return Contact
+     */
+    public function createContact(Contact $contact, MailingList $list): Contact
+    {
+        $response = $this->client->post('lists/' . $list->getId() . '/contacts', [], ContactSerializer::serialize($contact));
+        return ContactSerializer::deserialize($response);
+    }
+
+    /**
+     * Deletes a contact of a mailing list.
+     *
+     * @param Contact $contact
+     * @param MailingList $list
+     */
+    public function deleteContact(Contact $contact, MailingList $list)
+    {
+        $this->client->delete('lists/' . $list->getId() . '/contacts/' . $contact->getId());
     }
 }

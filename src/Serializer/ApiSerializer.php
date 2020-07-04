@@ -6,7 +6,7 @@ namespace Ideneal\EmailOctopus\Serializer;
 
 use Psr\Http\Message\ResponseInterface;
 
-abstract class ApiResponseDeserializer extends JsonDeserializer implements ResponseDeserializerInterface
+abstract class ApiSerializer extends JsonDeserializer implements ApiSerializerInterface
 {
     public static function deserialize(ResponseInterface $response)
     {

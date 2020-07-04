@@ -6,8 +6,15 @@ namespace Ideneal\EmailOctopus\Serializer;
 
 use Ideneal\EmailOctopus\Entity\MailingList;
 
-class MailingListDeserializer extends ApiResponseDeserializer
+class MailingListSerializer extends ApiSerializer
 {
+    /**
+     * @param array $json
+     *
+     * @return MailingList
+     *
+     * @throws \Exception
+     */
     public static function deserializeObject(array $json)
     {
         $mailingList = new MailingList();
@@ -30,5 +37,17 @@ class MailingListDeserializer extends ApiResponseDeserializer
         }
 
         return $mailingList;
+    }
+
+    /**
+     * @param MailingList $object
+     *
+     * @return array
+     */
+    public static function serialize($object): array
+    {
+        return [
+            'name' => $object->getName(),
+        ];
     }
 }
