@@ -1,4 +1,10 @@
 # EmailOctopus
+
+[![Packagist](https://img.shields.io/packagist/v/ideneal/emailoctopus.svg?style=flat-square)](https://packagist.org/packages/ideneal/emailoctopus)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/Ideneal/EmailOctopus/master/LICENSE)
+[![Travis branch](https://img.shields.io/travis/Ideneal/EmailOctopus/master.svg?style=flat-square)](https://travis-ci.org/Ideneal/EmailOctopus)
+[![Codacy branch](https://img.shields.io/codacy/grade/a5904d0ecbbf400691f4f3ac03e3649e/master.svg?style=flat-square)](https://www.codacy.com/app/ideneal-ztl/EmailOctopus)
+
 A PHP wrapper for [EmailOctopus](https://emailoctopus.com/) email marketing service.
 
 For more information on how to set up your account, read the [API docs](http://emailoctopus.com/api-documentation).
