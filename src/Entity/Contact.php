@@ -57,6 +57,7 @@ class Contact
 
     /**
      * @param string $id
+     *
      * @return Contact
      */
     public function setId(string $id): Contact
@@ -75,6 +76,7 @@ class Contact
 
     /**
      * @param string $email
+     *
      * @return Contact
      */
     public function setEmail(string $email): Contact
@@ -93,6 +95,7 @@ class Contact
 
     /**
      * @param string $firstName
+     *
      * @return Contact
      */
     public function setFirstName(string $firstName): Contact
@@ -110,6 +113,7 @@ class Contact
 
     /**
      * @param string $lastName
+     *
      * @return Contact
      */
     public function setLastName(string $lastName): Contact
@@ -127,6 +131,7 @@ class Contact
 
     /**
      * @param array $fields
+     *
      * @return Contact
      */
     public function setFields(array $fields): Contact
@@ -138,6 +143,7 @@ class Contact
     /**
      * @param string $key
      * @param string $value
+     *
      * @return $this
      */
     public function addField(string $key, string $value): Contact
@@ -156,11 +162,16 @@ class Contact
 
     /**
      * @param string $status
+     *
      * @return Contact
      */
     public function setStatus(string $status): Contact
     {
-        if (in_array($status, [self::STATUS_PENDING, self::STATUS_SUBSCRIBED, self::STATUS_UNSUBSCRIBED])) {
+        if (in_array($status, [
+            self::STATUS_PENDING,
+            self::STATUS_SUBSCRIBED,
+            self::STATUS_UNSUBSCRIBED,
+        ])) {
             $this->status = $status;
         }
         return $this;
@@ -176,6 +187,7 @@ class Contact
 
     /**
      * @param \DateTimeInterface $createdAt
+     *
      * @return Contact
      */
     public function setCreatedAt(\DateTimeInterface $createdAt): Contact

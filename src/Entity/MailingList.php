@@ -11,6 +11,11 @@
 namespace Ideneal\EmailOctopus\Entity;
 
 
+/**
+ * Class MailingList
+ *
+ * @package Ideneal\EmailOctopus\Entity
+ */
 class MailingList
 {
     /**

@@ -11,12 +11,20 @@
 namespace Ideneal\EmailOctopus;
 
 
+use Ideneal\EmailOctopus\Entity\Campaign;
 use Ideneal\EmailOctopus\Entity\Contact;
 use Ideneal\EmailOctopus\Entity\MailingList;
 use Ideneal\EmailOctopus\Http\ApiClient;
+use Ideneal\EmailOctopus\Serializer\CampaignSerializer;
 use Ideneal\EmailOctopus\Serializer\ContactSerializer;
 use Ideneal\EmailOctopus\Serializer\MailingListSerializer;
 
+
+/**
+ * Class EmailOctopus
+ *
+ * @package Ideneal\EmailOctopus
+ */
 class EmailOctopus
 {
     /**
@@ -73,7 +81,7 @@ class EmailOctopus
      */
     public function createMailingList(MailingList $list): MailingList
     {
-        $response = $this->client->post('lists', [], MailingListSerializer::serialize($list));
+        $response = $this->client->post('lists', MailingListSerializer::serialize($list));
         return MailingListSerializer::deserialize($response);
     }
 
@@ -86,7 +94,7 @@ class EmailOctopus
      */
     public function updateMailingList(MailingList $list): MailingList
     {
-        $response = $this->client->put('lists/' . $list->getId(), [], MailingListSerializer::serialize($list));
+        $response = $this->client->put('lists/' . $list->getId(), MailingListSerializer::serialize($list));
         return MailingListSerializer::deserialize($response);
     }
 
@@ -104,8 +112,8 @@ class EmailOctopus
      * Returns all contact of a mailing list.
      *
      * @param MailingList $list
-     * @param int $limit
-     * @param int $page
+     * @param int         $limit
+     * @param int         $page
      *
      * @return Contact[]
      */
@@ -122,7 +130,7 @@ class EmailOctopus
      * Returns a contact of a mailing list.
      *
      * @param MailingList $list
-     * @param string $contactId
+     * @param string      $contactId
      *
      * @return Contact
      */
@@ -135,25 +143,55 @@ class EmailOctopus
     /**
      * Creates a contact of a mailing list.
      *
-     * @param Contact $contact
+     * @param Contact     $contact
      * @param MailingList $list
      *
      * @return Contact
      */
     public function createContact(Contact $contact, MailingList $list): Contact
     {
-        $response = $this->client->post('lists/' . $list->getId() . '/contacts', [], ContactSerializer::serialize($contact));
+        $response = $this->client->post('lists/' . $list->getId() . '/contacts', ContactSerializer::serialize($contact));
         return ContactSerializer::deserialize($response);
     }
 
     /**
      * Deletes a contact of a mailing list.
      *
-     * @param Contact $contact
+     * @param Contact     $contact
      * @param MailingList $list
      */
     public function deleteContact(Contact $contact, MailingList $list)
     {
         $this->client->delete('lists/' . $list->getId() . '/contacts/' . $contact->getId());
+    }
+
+    /**
+     * Returns all campaigns.
+     *
+     * @param int $limit
+     * @param int $page
+     *
+     * @return Campaign[]
+     */
+    public function getCampaigns(int $limit = 100, int $page = 1): array
+    {
+        $response = $this->client->get('campaigns', [
+            'limit' => $limit,
+            'page'  => $page,
+        ]);
+        return CampaignSerializer::deserialize($response);
+    }
+
+    /**
+     * Returns a campaign.
+     *
+     * @param string $id
+     *
+     * @return Campaign
+     */
+    public function getCampaign(string $id): Campaign
+    {
+        $response = $this->client->get('campaigns/' . $id);
+        return CampaignSerializer::deserialize($response);
     }
 }

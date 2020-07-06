@@ -1,10 +1,19 @@
 <?php
+/*
+ * This file is part of the ideneal/emailoctopus library
+ *
+ * (c) Daniele Pedone <ideneal.ztl@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 
 namespace Ideneal\EmailOctopus\Http;
 
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Ideneal\EmailOctopus\Exception\InvalidApiKeyException;
 use Ideneal\EmailOctopus\Exception\InvalidParametersException;
 use Ideneal\EmailOctopus\Exception\ResourceNotFoundException;
@@ -12,15 +21,32 @@ use Ideneal\EmailOctopus\Exception\UnauthorisedException;
 use Psr\Http\Message\ResponseInterface;
 
 
+/**
+ * Class ApiClient
+ *
+ * @package Ideneal\EmailOctopus\Http
+ */
 class ApiClient implements ApiInterface
 {
     const BASE_URL    = 'https://emailoctopus.com/api';
     const API_VERSION = '1.5';
 
+    /**
+     * @var string
+     */
     private $apiKey;
 
+    /**
+     * @var Client
+     */
     private $client;
 
+    /**
+     * ApiClient constructor.
+     *
+     * @param string $apiKey
+     * @param array  $config
+     */
     public function __construct(string $apiKey, array $config = [])
     {
         $this->apiKey = $apiKey;
@@ -31,7 +57,17 @@ class ApiClient implements ApiInterface
         ]);
     }
 
-
+    /**
+     * @param string $path
+     * @param array  $params
+     *
+     * @return ResponseInterface
+     * @throws InvalidApiKeyException
+     * @throws InvalidParametersException
+     * @throws ResourceNotFoundException
+     * @throws UnauthorisedException
+     * @throws GuzzleException
+     */
     public function get(string $path, array $params = []): ResponseInterface
     {
         $response = $this->client->get($path, [
@@ -43,7 +79,19 @@ class ApiClient implements ApiInterface
         return $response;
     }
 
-    public function post(string $path, array $params = [], array $data = []): ResponseInterface
+    /**
+     * @param string $path
+     * @param array  $data
+     * @param array  $params
+     *
+     * @return ResponseInterface
+     * @throws InvalidApiKeyException
+     * @throws InvalidParametersException
+     * @throws ResourceNotFoundException
+     * @throws UnauthorisedException
+     * @throws GuzzleException
+     */
+    public function post(string $path, array $data = [], array $params = []): ResponseInterface
     {
         $response = $this->client->post($path, [
             'query' => $this->processQuery($params),
@@ -55,7 +103,19 @@ class ApiClient implements ApiInterface
         return $response;
     }
 
-    public function put(string $path, array $params = [], array $data = []): ResponseInterface
+    /**
+     * @param string $path
+     * @param array  $data
+     * @param array  $params
+     *
+     * @return ResponseInterface
+     * @throws InvalidApiKeyException
+     * @throws InvalidParametersException
+     * @throws ResourceNotFoundException
+     * @throws UnauthorisedException
+     * @throws GuzzleException
+     */
+    public function put(string $path, array $data = [], array $params = []): ResponseInterface
     {
         $response = $this->client->put($path, [
             'query' => $this->processQuery($params),
@@ -67,6 +127,17 @@ class ApiClient implements ApiInterface
         return $response;
     }
 
+    /**
+     * @param string $path
+     * @param array  $params
+     *
+     * @return ResponseInterface
+     * @throws InvalidApiKeyException
+     * @throws InvalidParametersException
+     * @throws ResourceNotFoundException
+     * @throws UnauthorisedException
+     * @throws GuzzleException
+     */
     public function delete(string $path, array $params = []): ResponseInterface
     {
         $response = $this->client->post($path, [
@@ -82,6 +153,7 @@ class ApiClient implements ApiInterface
      * Process the request query before send it.
      *
      * @param array $params
+     *
      * @return array
      */
     private function processQuery(array $params = []): array
@@ -100,7 +172,7 @@ class ApiClient implements ApiInterface
      * @throws InvalidParametersException
      * @throws ResourceNotFoundException
      * @throws UnauthorisedException
-     * @throws \HttpException
+     * @throws \Exception
      */
     private function validateResponse(ResponseInterface $response)
     {
@@ -120,7 +192,7 @@ class ApiClient implements ApiInterface
                 case 'NOT_FOUND':
                     throw new ResourceNotFoundException($message);
                 default:
-                    throw new \HttpException($message);
+                    throw new \Exception($message);
             }
         }
     }

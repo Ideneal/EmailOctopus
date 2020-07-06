@@ -1,11 +1,23 @@
 <?php
-
+/*
+ * This file is part of the ideneal/emailoctopus library
+ *
+ * (c) Daniele Pedone <ideneal.ztl@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Ideneal\EmailOctopus\Serializer;
 
 
 use Ideneal\EmailOctopus\Entity\Contact;
 
+/**
+ * Class ContactSerializer
+ *
+ * @package Ideneal\EmailOctopus\Serializer
+ */
 class ContactSerializer extends ApiSerializer
 {
     /**
@@ -15,7 +27,7 @@ class ContactSerializer extends ApiSerializer
      *
      * @throws \Exception
      */
-    public static function deserializeObject(array $json)
+    public static function deserializeSingle(array $json)
     {
         $contact = new Contact();
         $contact
