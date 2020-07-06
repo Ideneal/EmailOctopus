@@ -42,7 +42,8 @@ class MailingListSerializer extends ApiSerializer
         }
 
         if (isset($json['fields'])) {
-            $mailingList->setFields($json['fields']);
+            $fields = MailingListFieldSerializer::deserializeMultiple($json['fields']);
+            $mailingList->setFields($fields);
         }
 
         if (isset($json['counts'])) {

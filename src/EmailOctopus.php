@@ -14,9 +14,11 @@ namespace Ideneal\EmailOctopus;
 use Ideneal\EmailOctopus\Entity\Campaign;
 use Ideneal\EmailOctopus\Entity\Contact;
 use Ideneal\EmailOctopus\Entity\MailingList;
+use Ideneal\EmailOctopus\Entity\MailingListField;
 use Ideneal\EmailOctopus\Http\ApiClient;
 use Ideneal\EmailOctopus\Serializer\CampaignSerializer;
 use Ideneal\EmailOctopus\Serializer\ContactSerializer;
+use Ideneal\EmailOctopus\Serializer\MailingListFieldSerializer;
 use Ideneal\EmailOctopus\Serializer\MailingListSerializer;
 
 
@@ -106,6 +108,45 @@ class EmailOctopus
     public function deleteMailingList(MailingList $list): void
     {
         $this->client->delete('lists/' . $list->getId());
+    }
+
+    /**
+     * Creates a mailing list field.
+     *
+     * @param MailingListField $field
+     * @param MailingList      $list
+     *
+     * @return MailingListField
+     */
+    public function createMailingListField(MailingListField $field, MailingList $list): MailingListField
+    {
+        $response = $this->client->post('lists/' . $list->getId() . '/fields', MailingListFieldSerializer::serialize($field));
+        return MailingListFieldSerializer::deserialize($response);
+    }
+
+    /**
+     * Updates a mailing list field.
+     *
+     * @param MailingListField $field
+     * @param MailingList      $list
+     *
+     * @return MailingListField
+     */
+    public function updateMailingListField(MailingListField $field, MailingList $list): MailingListField
+    {
+        $response = $this->client->post('lists/' . $list->getId() . '/fields/' . $field->getTag(), MailingListFieldSerializer::serialize($field));
+        return MailingListFieldSerializer::deserialize($response);
+    }
+
+    /**
+     * Deletes a mailing list field.
+     *
+     * @param MailingListField $field
+     * @param MailingList      $list
+     */
+    public function deleteMailingListField(MailingListField $field, MailingList $list): void
+    {
+        $this->client->delete('lists/' . $list->getId() . '/fields/' . $field->getTag());
     }
 
     /**

@@ -34,7 +34,7 @@ class MailingList
     private $doubleOptIn;
 
     /**
-     * @var array
+     * @var MailingListField[]
      */
     private $fields = [];
 
@@ -111,7 +111,7 @@ class MailingList
     }
 
     /**
-     * @return array
+     * @return MailingListField[]
      */
     public function getFields(): array
     {
@@ -119,7 +119,7 @@ class MailingList
     }
 
     /**
-     * @param array $fields
+     * @param MailingListField[] $fields
      * @return MailingList
      */
     public function setFields(array $fields): MailingList
@@ -129,10 +129,10 @@ class MailingList
     }
 
     /**
-     * @param array $field
+     * @param MailingListField $field
      * @return $this
      */
-    public function addField(array $field): MailingList
+    public function addField(MailingListField $field): MailingList
     {
         $this->fields[] = $field;
         return $this;
