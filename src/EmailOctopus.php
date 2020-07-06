@@ -64,13 +64,13 @@ class EmailOctopus
     /**
      * Returns the mailing list.
      *
-     * @param string $id
+     * @param string $listId
      *
      * @return MailingList
      */
-    public function getMailingList(string $id): MailingList
+    public function getMailingList(string $listId): MailingList
     {
-        $response = $this->client->get('lists/' . $id);
+        $response = $this->client->get('lists/' . $listId);
         return MailingListSerializer::deserialize($response);
     }
 
@@ -84,7 +84,8 @@ class EmailOctopus
     public function createMailingList(MailingList $list): MailingList
     {
         $response = $this->client->post('lists', MailingListSerializer::serialize($list));
-        return MailingListSerializer::deserialize($response);
+        $list = MailingListSerializer::deserialize($response);
+        return $list;
     }
 
     /**
@@ -97,7 +98,8 @@ class EmailOctopus
     public function updateMailingList(MailingList $list): MailingList
     {
         $response = $this->client->put('lists/' . $list->getId(), MailingListSerializer::serialize($list));
-        return MailingListSerializer::deserialize($response);
+        $list = MailingListSerializer::deserialize($response);
+        return $list;
     }
 
     /**
@@ -121,7 +123,8 @@ class EmailOctopus
     public function createMailingListField(MailingListField $field, MailingList $list): MailingListField
     {
         $response = $this->client->post('lists/' . $list->getId() . '/fields', MailingListFieldSerializer::serialize($field));
-        return MailingListFieldSerializer::deserialize($response);
+        $field = MailingListFieldSerializer::deserialize($response);
+        return $field;
     }
 
     /**
@@ -135,7 +138,8 @@ class EmailOctopus
     public function updateMailingListField(MailingListField $field, MailingList $list): MailingListField
     {
         $response = $this->client->post('lists/' . $list->getId() . '/fields/' . $field->getTag(), MailingListFieldSerializer::serialize($field));
-        return MailingListFieldSerializer::deserialize($response);
+        $field = MailingListFieldSerializer::deserialize($response);
+        return $field;
     }
 
     /**
@@ -170,12 +174,12 @@ class EmailOctopus
     /**
      * Returns a contact of a mailing list.
      *
-     * @param MailingList $list
      * @param string      $contactId
+     * @param MailingList $list
      *
      * @return Contact
      */
-    public function getContactByMailingList(MailingList $list, string $contactId): Contact
+    public function getContactByMailingList(string $contactId, MailingList $list): Contact
     {
         $response = $this->client->get('lists/' . $list->getId() . '/contacts/' . $contactId);
         return ContactSerializer::deserialize($response);
@@ -192,7 +196,8 @@ class EmailOctopus
     public function createContact(Contact $contact, MailingList $list): Contact
     {
         $response = $this->client->post('lists/' . $list->getId() . '/contacts', ContactSerializer::serialize($contact));
-        return ContactSerializer::deserialize($response);
+        $contact = ContactSerializer::deserialize($response);
+        return $contact;
     }
 
     /**
@@ -226,13 +231,13 @@ class EmailOctopus
     /**
      * Returns a campaign.
      *
-     * @param string $id
+     * @param string $campaignId
      *
      * @return Campaign
      */
-    public function getCampaign(string $id): Campaign
+    public function getCampaign(string $campaignId): Campaign
     {
-        $response = $this->client->get('campaigns/' . $id);
+        $response = $this->client->get('campaigns/' . $campaignId);
         return CampaignSerializer::deserialize($response);
     }
 }

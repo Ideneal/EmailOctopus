@@ -51,10 +51,10 @@ class ApiClient implements ApiInterface
     {
         $this->apiKey = $apiKey;
 
-        $this->client = new Client([
+        $this->client = new Client(array_merge([
             'base_uri'    => self::BASE_URL . '/' . self::API_VERSION . '/',
             'http_errors' => false,
-        ]);
+        ], $config));
     }
 
     /**
