@@ -30,6 +30,7 @@ class MailingListSerializer extends ApiSerializer
      */
     public static function deserializeSingle(array $json)
     {
+        var_dump($json);
         $mailingList = new MailingList();
         $mailingList
             ->setId($json['id'])
