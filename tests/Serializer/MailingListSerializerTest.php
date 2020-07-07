@@ -72,11 +72,11 @@ class MailingListSerializerTest extends ApiSerializerTestCase
     }
 
     /**
-     * Tests a json list object deserialization.
+     * Tests a mailing list json object deserialization.
      *
      * @throws \Exception
      */
-    public function testSingleJsonObjectDeserialization()
+    public function testJsonObjectDeserialization()
     {
         $jsonList = $this->json[0];
 
@@ -87,5 +87,17 @@ class MailingListSerializerTest extends ApiSerializerTestCase
         $this->assertIsArray($list->getFields());
         $this->assertCount(3, $list->getFields());
         $this->assertContainsOnlyInstancesOf(MailingListField::class, $list->getFields());
+    }
+
+    /**
+     * Tests a mailing lists json array deserialization.
+     */
+    public function testJsonArrayDeserialization()
+    {
+        $lists = MailingListSerializer::deserializeMultiple($this->json);
+
+        $this->assertIsArray($lists);
+        $this->assertCount(1, $lists);
+        $this->assertContainsOnlyInstancesOf(MailingList::class, $lists);
     }
 }
