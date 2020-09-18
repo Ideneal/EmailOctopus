@@ -201,6 +201,21 @@ class EmailOctopus
     }
 
     /**
+     * Updates a contact of a mailing list.
+     *
+     * @param Contact     $contact
+     * @param MailingList $list
+     *
+     * @return Contact
+     */
+    public function updateContact(Contact $contact, MailingList $list): Contact
+    {
+        $response = $this->client->put('lists/' . $list->getId() . '/contacts/' . $contact->getId(), ContactSerializer::serialize($contact));
+        $contact = ContactSerializer::deserialize($response);
+        return $contact;
+    }
+
+    /**
      * Deletes a contact of a mailing list.
      *
      * @param Contact     $contact
