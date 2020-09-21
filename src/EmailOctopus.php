@@ -172,6 +172,50 @@ class EmailOctopus
     }
 
     /**
+     * Returns SUBSCRIBED contact of a mailing list.
+     *
+     * @param MailingList $list
+     * @param int         $limit
+     * @param int         $page
+     * @return array
+     * @throws Exception\InvalidApiKeyException
+     * @throws Exception\InvalidParametersException
+     * @throws Exception\ResourceNotFoundException
+     * @throws Exception\UnauthorisedException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getSubscribedContactsByMailingList(MailingList $list, int $limit = 100, int $page = 1): array
+    {
+        $response = $this->client->get('lists/' . $list->getId() . '/contacts/subscribed', [
+            'limit' => $limit,
+            'page'  => $page,
+        ]);
+        return ContactSerializer::deserialize($response);
+    }
+
+    /**
+     * Returns UNSUBSCRIBED contact of a mailing list.
+     *
+     * @param MailingList $list
+     * @param int         $limit
+     * @param int         $page
+     * @return array
+     * @throws Exception\InvalidApiKeyException
+     * @throws Exception\InvalidParametersException
+     * @throws Exception\ResourceNotFoundException
+     * @throws Exception\UnauthorisedException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getUnsubscribedContactsByMailingList(MailingList $list, int $limit = 100, int $page = 1): array
+    {
+        $response = $this->client->get('lists/' . $list->getId() . '/contacts/unsubscribed', [
+            'limit' => $limit,
+            'page'  => $page,
+        ]);
+        return ContactSerializer::deserialize($response);
+    }
+
+    /**
      * Returns a contact of a mailing list.
      *
      * @param string      $contactId
