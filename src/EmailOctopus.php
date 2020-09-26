@@ -172,6 +172,50 @@ class EmailOctopus
     }
 
     /**
+     * Returns SUBSCRIBED contact of a mailing list.
+     *
+     * @param MailingList $list
+     * @param int         $limit
+     * @param int         $page
+     * @return array
+     * @throws Exception\InvalidApiKeyException
+     * @throws Exception\InvalidParametersException
+     * @throws Exception\ResourceNotFoundException
+     * @throws Exception\UnauthorisedException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getSubscribedContactsByMailingList(MailingList $list, int $limit = 100, int $page = 1): array
+    {
+        $response = $this->client->get('lists/' . $list->getId() . '/contacts/subscribed', [
+            'limit' => $limit,
+            'page'  => $page,
+        ]);
+        return ContactSerializer::deserialize($response);
+    }
+
+    /**
+     * Returns UNSUBSCRIBED contact of a mailing list.
+     *
+     * @param MailingList $list
+     * @param int         $limit
+     * @param int         $page
+     * @return array
+     * @throws Exception\InvalidApiKeyException
+     * @throws Exception\InvalidParametersException
+     * @throws Exception\ResourceNotFoundException
+     * @throws Exception\UnauthorisedException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getUnsubscribedContactsByMailingList(MailingList $list, int $limit = 100, int $page = 1): array
+    {
+        $response = $this->client->get('lists/' . $list->getId() . '/contacts/unsubscribed', [
+            'limit' => $limit,
+            'page'  => $page,
+        ]);
+        return ContactSerializer::deserialize($response);
+    }
+
+    /**
      * Returns a contact of a mailing list.
      *
      * @param string      $contactId
@@ -196,6 +240,21 @@ class EmailOctopus
     public function createContact(Contact $contact, MailingList $list): Contact
     {
         $response = $this->client->post('lists/' . $list->getId() . '/contacts', ContactSerializer::serialize($contact));
+        $contact = ContactSerializer::deserialize($response);
+        return $contact;
+    }
+
+    /**
+     * Updates a contact of a mailing list.
+     *
+     * @param Contact     $contact
+     * @param MailingList $list
+     *
+     * @return Contact
+     */
+    public function updateContact(Contact $contact, MailingList $list): Contact
+    {
+        $response = $this->client->put('lists/' . $list->getId() . '/contacts/' . $contact->getId(), ContactSerializer::serialize($contact));
         $contact = ContactSerializer::deserialize($response);
         return $contact;
     }
