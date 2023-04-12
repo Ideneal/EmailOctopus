@@ -157,7 +157,7 @@ class Contact
      */
     public function getStatus(): string
     {
-        return $this->status;
+        return $this->status ? $this->status : '';
     }
 
     /**
