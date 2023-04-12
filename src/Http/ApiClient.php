@@ -140,7 +140,7 @@ class ApiClient implements ApiInterface
      */
     public function delete(string $path, array $params = []): ResponseInterface
     {
-        $response = $this->client->post($path, [
+        $response = $this->client->delete($path, [
             'query' => $this->processQuery($params),
         ]);
 
