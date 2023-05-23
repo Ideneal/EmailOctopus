@@ -29,7 +29,7 @@ use Psr\Http\Message\ResponseInterface;
 class ApiClient implements ApiInterface
 {
     const BASE_URL    = 'https://emailoctopus.com/api';
-    const API_VERSION = '1.5';
+    const API_VERSION = '1.6';
 
     /**
      * @var string
