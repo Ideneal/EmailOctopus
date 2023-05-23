@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  php:
+    build:
+      context: .
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    networks:
+      - app-network
+
+networks:
+  app-network:
