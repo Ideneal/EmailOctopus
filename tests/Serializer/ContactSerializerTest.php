@@ -22,10 +22,7 @@ use Ideneal\EmailOctopus\Serializer\ContactSerializer;
  */
 class ContactSerializerTest extends ApiSerializerTestCase
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->json = [
             [
@@ -41,10 +38,7 @@ class ContactSerializerTest extends ApiSerializerTestCase
         ];
     }
 
-    /**
-     * Tests contact serialization.
-     */
-    public function testSerialization()
+    public function testSerialization(): void
     {
         $contact = new Contact();
         $contact
@@ -63,15 +57,13 @@ class ContactSerializerTest extends ApiSerializerTestCase
         $this->assertCount(2, $json['fields']);
         $this->assertArrayHasKey('FirstName', $json['fields']);
         $this->assertArrayHasKey('LastName', $json['fields']);
-        $this->assertEquals('john.doe@mail.com', $json['email_address']);
+        $this->assertSame('john.doe@mail.com', $json['email_address']);
     }
 
     /**
      * Tests a contact json object deserialization.
-     *
-     * @throws \Exception
      */
-    public function testJsonObjectDeserialization()
+    public function testJsonObjectDeserialization(): void
     {
         $jsonObject = $this->json[0];
         $contact    = ContactSerializer::deserializeSingle($jsonObject);
@@ -82,10 +74,7 @@ class ContactSerializerTest extends ApiSerializerTestCase
         $this->assertCount(2, $contact->getFields());
     }
 
-    /**
-     * Tests a contact list json array deserialization.
-     */
-    public function testJsonArrayDeserialization()
+    public function testJsonArrayDeserialization(): void
     {
         $contacts = ContactSerializer::deserializeMultiple($this->json);
 

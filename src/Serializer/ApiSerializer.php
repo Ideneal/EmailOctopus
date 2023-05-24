@@ -12,9 +12,7 @@ declare(strict_types=1);
 
 namespace Ideneal\EmailOctopus\Serializer;
 
-
 use Psr\Http\Message\ResponseInterface;
-
 
 /**
  * Class ApiSerializer
@@ -24,13 +22,14 @@ use Psr\Http\Message\ResponseInterface;
 abstract class ApiSerializer extends JsonDeserializer implements ApiSerializerInterface
 {
     /**
-     * @param ResponseInterface $response
-     *
-     * @return array|object
+     * @inheritDoc
      */
     public static function deserialize(ResponseInterface $response)
     {
-        $json = json_decode($response->getBody(), true);
-        return isset($json['data']) && isset($json['paging']) ? static::deserializeMultiple($json['data']) : static::deserializeSingle($json);
+        $json = \json_decode((string) $response->getBody(), true);
+
+        return isset($json['data']) && isset($json['paging'])
+            ? static::deserializeMultiple($json['data'])
+            : static::deserializeSingle($json);
     }
 }

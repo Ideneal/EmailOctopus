@@ -22,10 +22,7 @@ use Ideneal\EmailOctopus\Serializer\MailingListFieldSerializer;
  */
 class MailingListFieldSerializerTest extends ApiSerializerTestCase
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->json = [
             [
@@ -49,10 +46,7 @@ class MailingListFieldSerializerTest extends ApiSerializerTestCase
         ];
     }
 
-    /**
-     * Tests mailing test field serialization.
-     */
-    public function testSerialization()
+    public function testSerialization(): void
     {
         $field = new MailingListField();
         $field
@@ -68,27 +62,21 @@ class MailingListFieldSerializerTest extends ApiSerializerTestCase
         $this->assertArrayHasKey('tag', $json);
         $this->assertArrayHasKey('type', $json);
         $this->assertArrayHasKey('fallback', $json);
-        $this->assertEquals('Email', $json['label']);
-        $this->assertEquals('EmailAddress', $json['tag']);
-        $this->assertEquals('TEXT', $json['type']);
+        $this->assertSame('Email', $json['label']);
+        $this->assertSame('EmailAddress', $json['tag']);
+        $this->assertSame('TEXT', $json['type']);
     }
 
-    /**
-     * Tests a mailing list field json object deserialization.
-     */
-    public function testJsonObjectDeserialization()
+    public function testJsonObjectDeserialization(): void
     {
         $field = MailingListFieldSerializer::deserializeSingle($this->json[0]);
 
         $this->assertInstanceOf(MailingListField::class, $field);
-        $this->assertEquals('EmailAddress', $field->getTag());
-        $this->assertEquals(MailingListField::TEXT, $field->getType());
+        $this->assertSame('EmailAddress', $field->getTag());
+        $this->assertSame(MailingListField::TEXT, $field->getType());
     }
 
-    /**
-     * Tests a mailing list fields json array deserialization.
-     */
-    public function testJsonArrayDeserialization()
+    public function testJsonArrayDeserialization(): void
     {
         $fields = MailingListFieldSerializer::deserializeMultiple($this->json);
 

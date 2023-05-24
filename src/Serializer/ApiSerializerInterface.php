@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Ideneal\EmailOctopus\Serializer;
 
-
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -27,12 +26,12 @@ interface ApiSerializerInterface
      *
      * @param ResponseInterface $response
      *
-     * @return array|object
+     * @return mixed
      */
     public static function deserialize(ResponseInterface $response);
 
     /**
-     * Serialize an object into a json.
+     * Serialize an object into an array.
      *
      * @param object $object
      *

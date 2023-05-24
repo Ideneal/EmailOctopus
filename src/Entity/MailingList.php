@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Ideneal\EmailOctopus\Entity;
 
-
 /**
  * Class MailingList
  *
@@ -20,93 +19,49 @@ namespace Ideneal\EmailOctopus\Entity;
  */
 class MailingList
 {
-    /**
-     * @var string
-     */
-    private $id;
-
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var bool
-     */
-    private $doubleOptIn;
-
+    private string $id;
+    private string $name;
+    private bool $doubleOptIn;
     /**
      * @var MailingListField[]
      */
-    private $fields = [];
+    private array $fields = [];
+    private array $counts = [];
+    private \DateTimeInterface $createdAt;
 
-    /**
-     * @var array
-     */
-    private $counts = [];
-
-    /**
-     * @var \DateTimeInterface
-     */
-    private $createdAt;
-
-    /**
-     * MailingList constructor.
-     */
     public function __construct()
     {
         $this->doubleOptIn = false;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @param string $id
-     * @return MailingList
-     */
-    public function setId(string $id): MailingList
+    public function setId(string $id): self
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return MailingList
-     */
-    public function setName(string $name): MailingList
+    public function setName(string $name): self
     {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isDoubleOptIn(): bool
     {
         return $this->doubleOptIn;
     }
 
-    /**
-     * @param bool $doubleOptIn
-     * @return MailingList
-     */
-    public function setDoubleOptIn(bool $doubleOptIn): MailingList
+    public function setDoubleOptIn(bool $doubleOptIn): self
     {
         $this->doubleOptIn = $doubleOptIn;
         return $this;
@@ -122,55 +77,36 @@ class MailingList
 
     /**
      * @param MailingListField[] $fields
-     * @return MailingList
      */
-    public function setFields(array $fields): MailingList
+    public function setFields(array $fields): self
     {
         $this->fields = $fields;
         return $this;
     }
 
-    /**
-     * @param MailingListField $field
-     * @return $this
-     */
-    public function addField(MailingListField $field): MailingList
+    public function addField(MailingListField $field): self
     {
         $this->fields[] = $field;
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getCounts(): array
     {
         return $this->counts;
     }
 
-    /**
-     * @param array $counts
-     * @return MailingList
-     */
-    public function setCounts(array $counts): MailingList
+    public function setCounts(array $counts): self
     {
         $this->counts = $counts;
         return $this;
     }
 
-    /**
-     * @return \DateTimeInterface
-     */
     public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param \DateTimeInterface $createdAt
-     * @return MailingList
-     */
-    public function setCreatedAt(\DateTimeInterface $createdAt): MailingList
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
         return $this;

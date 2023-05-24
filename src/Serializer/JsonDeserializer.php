@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Ideneal\EmailOctopus\Serializer;
 
-
 /**
  * Class JsonDeserializer
  *
@@ -23,25 +22,21 @@ abstract class JsonDeserializer
     /**
      * Deserializes a json into an object.
      *
-     * @param array $json
+     * @param array<string, string> $json
      *
-     * @return object
+     * @return mixed
      */
     abstract public static function deserializeSingle(array $json);
 
     /**
      * Deserializes a json array into an object array.
      *
-     * @param array $jsonArray
+     * @param array<int, array<string, string>> $jsonArray
      *
-     * @return array
+     * @return array<int, mixed>
      */
     public static function deserializeMultiple(array $jsonArray): array
     {
-        $items = [];
-        foreach ($jsonArray as $jsonItem) {
-            $items[] = static::deserializeSingle($jsonItem);
-        }
-        return $items;
+        return \array_map(fn (array $json) => static::deserializeSingle($json), $jsonArray);
     }
 }

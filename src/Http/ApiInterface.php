@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Ideneal\EmailOctopus\Http;
 
-
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -24,36 +23,24 @@ use Psr\Http\Message\ResponseInterface;
 interface ApiInterface
 {
     /**
-     * @param string $path
-     * @param array  $params
-     *
-     * @return ResponseInterface
+     * @param array<string, string> $params
      */
     public function get(string $path, array $params = []): ResponseInterface;
 
     /**
-     * @param string $path
-     * @param array  $data
-     * @param array  $params
-     *
-     * @return ResponseInterface
+     * @param array<string, string> $data
+     * @param array<string, string> $params
      */
     public function post(string $path, array $data = [], array $params = []): ResponseInterface;
 
     /**
-     * @param string $path
-     * @param array  $data
-     * @param array  $params
-     *
-     * @return ResponseInterface
+     * @param array<string, string> $data
+     * @param array<string, string> $params
      */
     public function put(string $path, array $data = [], array $params = []): ResponseInterface;
 
     /**
-     * @param string $path
-     * @param array  $params
-     *
-     * @return ResponseInterface
+     * @param array<string, string> $params
      */
     public function delete(string $path, array $params = []): ResponseInterface;
 }

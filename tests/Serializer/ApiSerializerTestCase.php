@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Ideneal\EmailOctopus\Tests\Serializer;
 
-
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 abstract class ApiSerializerTestCase extends TestCase
 {
     /**
-     * @var array
+     * @var array<string, mixed>
      */
-    protected $json = [];
+    protected array $json = [];
 }

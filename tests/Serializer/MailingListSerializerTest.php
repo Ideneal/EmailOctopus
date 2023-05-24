@@ -23,10 +23,7 @@ use Ideneal\EmailOctopus\Serializer\MailingListSerializer;
  */
 class MailingListSerializerTest extends ApiSerializerTestCase
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->json = [
             [
@@ -58,10 +55,7 @@ class MailingListSerializerTest extends ApiSerializerTestCase
         ];
     }
 
-    /**
-     * Tests mailing list serialization.
-     */
-    public function testSerialization()
+    public function testSerialization(): void
     {
         $list = new MailingList();
         $list->setName('Test');
@@ -70,15 +64,10 @@ class MailingListSerializerTest extends ApiSerializerTestCase
 
         $this->assertIsArray($json);
         $this->assertArrayHasKey('name', $json);
-        $this->assertEquals('Test', $json['name']);
+        $this->assertSame('Test', $json['name']);
     }
 
-    /**
-     * Tests a mailing list json object deserialization.
-     *
-     * @throws \Exception
-     */
-    public function testJsonObjectDeserialization()
+    public function testJsonObjectDeserialization(): void
     {
         $jsonList = $this->json[0];
 
@@ -91,10 +80,7 @@ class MailingListSerializerTest extends ApiSerializerTestCase
         $this->assertContainsOnlyInstancesOf(MailingListField::class, $list->getFields());
     }
 
-    /**
-     * Tests a mailing lists json array deserialization.
-     */
-    public function testJsonArrayDeserialization()
+    public function testJsonArrayDeserialization(): void
     {
         $lists = MailingListSerializer::deserializeMultiple($this->json);
 

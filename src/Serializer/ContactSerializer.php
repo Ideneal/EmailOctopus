@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Ideneal\EmailOctopus\Serializer;
 
-
 use Ideneal\EmailOctopus\Entity\Contact;
 
 /**
@@ -23,13 +22,11 @@ use Ideneal\EmailOctopus\Entity\Contact;
 class ContactSerializer extends ApiSerializer
 {
     /**
-     * @param array $json
-     *
-     * @return Contact
+     * @param array<string, mixed> $json
      *
      * @throws \Exception
      */
-    public static function deserializeSingle(array $json)
+    public static function deserializeSingle(array $json): Contact
     {
         $contact = new Contact();
         $contact
@@ -46,10 +43,14 @@ class ContactSerializer extends ApiSerializer
     /**
      * @param Contact $object
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public static function serialize($object): array
     {
+        if (!$object instanceof Contact) {
+            throw new \InvalidArgumentException('Invalid object type. Expected Contact.');
+        }
+
         $json = [
             'email_address' => $object->getEmail(),
             'fields'        => $object->getFields(),

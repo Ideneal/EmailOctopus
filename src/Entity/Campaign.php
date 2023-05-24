@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Ideneal\EmailOctopus\Entity;
 
-
 /**
  * Class Campaign
  *
@@ -20,229 +19,136 @@ namespace Ideneal\EmailOctopus\Entity;
  */
 class Campaign
 {
-    const STATUS_DRAFT   = 'DRAFT';
-    const STATUS_SENDING = 'SENDING';
-    const STATUS_SENT    = 'SENT';
-    const STATUS_ERROR   = 'ERROR';
+    public const STATUS_DRAFT = 'DRAFT';
+    public const STATUS_SENDING = 'SENDING';
+    public const STATUS_SENT = 'SENT';
+    public const STATUS_ERROR = 'ERROR';
 
+    private string $id;
+    private string $status;
+    private string $name;
+    private string $subject;
     /**
-     * @var string
+     * @var string[]
      */
-    private $id;
+    private array $to = [];
+    /**
+     * @var string[]
+     */
+    private array $from = [];
+    /**
+     * @var string[]
+     */
+    private array $content = [];
+    private \DateTimeInterface $createdAt;
+    private ?\DateTimeInterface $sentAt;
 
-    /**
-     * @var string
-     */
-    private $status;
-
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var string
-     */
-    private $subject;
-
-    /**
-     * @var array
-     */
-    private $to;
-
-    /**
-     * @var array
-     */
-    private $from;
-
-    /**
-     * @var array
-     */
-    private $content;
-
-    /**
-     * @var \DateTimeInterface
-     */
-    private $createdAt;
-
-    /**
-     * @var \DateTimeInterface
-     */
-    private $sentAt;
-
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @param string $id
-     *
-     * @return Campaign
-     */
-    public function setId(string $id): Campaign
+    public function setId(string $id): self
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getStatus(): string
     {
         return $this->status;
     }
 
-    /**
-     * @param string $status
-     *
-     * @return Campaign
-     */
-    public function setStatus(string $status): Campaign
+    public function setStatus(string $status): self
     {
-        if (in_array($status, [
-            self::STATUS_DRAFT,
-            self::STATUS_SENDING,
-            self::STATUS_SENT,
-            self::STATUS_ERROR,
-        ])) {
+        if ($this->isValidStatus($status)) {
             $this->status = $status;
         }
         return $this;
     }
 
-    /**
-     * @return string
-     */
+    public function isValidStatus(string $status): bool
+    {
+        return \in_array($status, [
+            self::STATUS_DRAFT,
+            self::STATUS_SENDING,
+            self::STATUS_SENT,
+            self::STATUS_ERROR,
+        ], true);
+    }
+
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return Campaign
-     */
-    public function setName(string $name): Campaign
+    public function setName(string $name): self
     {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSubject(): string
     {
         return $this->subject;
     }
 
-    /**
-     * @param string $subject
-     *
-     * @return Campaign
-     */
-    public function setSubject(string $subject): Campaign
+    public function setSubject(string $subject): self
     {
         $this->subject = $subject;
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getTo(): array
     {
         return $this->to;
     }
 
-    /**
-     * @param array $to
-     *
-     * @return Campaign
-     */
-    public function setTo(array $to): Campaign
+    public function setTo(array $to): self
     {
         $this->to = $to;
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getFrom(): array
     {
         return $this->from;
     }
 
-    /**
-     * @param array $from
-     *
-     * @return Campaign
-     */
-    public function setFrom(array $from): Campaign
+    public function setFrom(array $from): self
     {
         $this->from = $from;
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getContent(): array
     {
         return $this->content;
     }
 
-    /**
-     * @param array $content
-     *
-     * @return Campaign
-     */
-    public function setContent(array $content): Campaign
+    public function setContent(array $content): self
     {
         $this->content = $content;
         return $this;
     }
 
-    /**
-     * @return \DateTimeInterface
-     */
     public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param \DateTimeInterface $createdAt
-     *
-     * @return Campaign
-     */
-    public function setCreatedAt(\DateTimeInterface $createdAt): Campaign
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    /**
-     * @return \DateTimeInterface
-     */
-    public function getSentAt(): \DateTimeInterface
+    public function getSentAt(): ?\DateTimeInterface
     {
         return $this->sentAt;
     }
 
-    /**
-     * @param \DateTimeInterface $sentAt
-     *
-     * @return Campaign
-     */
-    public function setSentAt(\DateTimeInterface $sentAt): Campaign
+    public function setSentAt(?\DateTimeInterface $sentAt): self
     {
         $this->sentAt = $sentAt;
         return $this;

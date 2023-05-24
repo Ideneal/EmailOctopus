@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Ideneal\EmailOctopus\Entity;
 
-
 /**
  * Class Contact
  *
@@ -20,179 +19,105 @@ namespace Ideneal\EmailOctopus\Entity;
  */
 class Contact
 {
-    const STATUS_SUBSCRIBED   = 'SUBSCRIBED';
-    const STATUS_UNSUBSCRIBED = 'UNSUBSCRIBED';
-    const STATUS_PENDING      = 'PENDING';
+    public const STATUS_SUBSCRIBED = 'SUBSCRIBED';
+    public const STATUS_UNSUBSCRIBED = 'UNSUBSCRIBED';
+    public const STATUS_PENDING = 'PENDING';
 
-    /**
-     * @var string
-     */
-    private $id;
+    private string $id;
+    private string $email;
+    private array $fields = [];
+    private ?string $status = null;
+    private \DateTimeInterface $createdAt;
 
-    /**
-     * @var string
-     */
-    private $email;
-
-    /**
-     * @var array
-     */
-    private $fields = [];
-
-    /**
-     * @var string
-     */
-    private $status;
-
-    /**
-     * @var \DateTimeInterface
-     */
-    private $createdAt;
-
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @param string $id
-     *
-     * @return Contact
-     */
-    public function setId(string $id): Contact
+    public function setId(string $id): self
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getEmail(): string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     *
-     * @return Contact
-     */
-    public function setEmail(string $email): Contact
+    public function setEmail(string $email): self
     {
         $this->email = $email;
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFirstName(): ?string
     {
-        return isset($this->fields['FirstName']) ? $this->fields['FirstName'] : null;
+        return $this->fields['FirstName'] ?? null;
     }
 
-    /**
-     * @param string $firstName
-     *
-     * @return Contact
-     */
-    public function setFirstName(string $firstName): Contact
+    public function setFirstName(string $firstName): self
     {
-        return $this->addField('FirstName', $firstName);
+        $this->addField('FirstName', $firstName);
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getLastName(): ?string
     {
-        return isset($this->fields['LastName']) ? $this->fields['LastName'] : null;
+        return $this->fields['LastName'] ?? null;
     }
 
-    /**
-     * @param string $lastName
-     *
-     * @return Contact
-     */
-    public function setLastName(string $lastName): Contact
+    public function setLastName(string $lastName): self
     {
-        return $this->addField('LastName', $lastName);
+        $this->addField('LastName', $lastName);
+        return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getFields(): array
     {
         return $this->fields;
     }
 
-    /**
-     * @param array $fields
-     *
-     * @return Contact
-     */
-    public function setFields(array $fields): Contact
+    public function setFields(array $fields): self
     {
         $this->fields = $fields;
         return $this;
     }
 
-    /**
-     * @param string $key
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function addField(string $key, string $value): Contact
+    public function addField(string $key, string $value): self
     {
         $this->fields[$key] = $value;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getStatus(): string
     {
-        return $this->status ? $this->status : '';
+        return $this->status ?? '';
     }
 
-    /**
-     * @param string $status
-     *
-     * @return Contact
-     */
-    public function setStatus(string $status): Contact
+    public function setStatus(string $status): self
     {
-        if (in_array($status, [
-            self::STATUS_PENDING,
-            self::STATUS_SUBSCRIBED,
-            self::STATUS_UNSUBSCRIBED,
-        ])) {
+        if ($this->isValidStatus($status)) {
             $this->status = $status;
         }
         return $this;
     }
 
-    /**
-     * @return \DateTimeInterface
-     */
+    public function isValidStatus(string $status): bool
+    {
+        return \in_array($status, [
+            self::STATUS_PENDING,
+            self::STATUS_SUBSCRIBED,
+            self::STATUS_UNSUBSCRIBED,
+        ], true);
+    }
+
     public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param \DateTimeInterface $createdAt
-     *
-     * @return Contact
-     */
-    public function setCreatedAt(\DateTimeInterface $createdAt): Contact
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
         return $this;

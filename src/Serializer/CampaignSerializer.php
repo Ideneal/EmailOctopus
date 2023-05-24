@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Ideneal\EmailOctopus\Serializer;
 
-
 use Ideneal\EmailOctopus\Entity\Campaign;
 
 /**
@@ -25,10 +24,14 @@ class CampaignSerializer extends ApiSerializer
     /**
      * @param Campaign $object
      *
-     * @return array
+     * @return array<string, string>
      */
     public static function serialize($object): array
     {
+        if (!$object instanceof Campaign) {
+            throw new \InvalidArgumentException('Invalid object type. Expected Campaign.');
+        }
+
         return [
             'name'   => $object->getName(),
             'status' => $object->getStatus(),
@@ -36,12 +39,11 @@ class CampaignSerializer extends ApiSerializer
     }
 
     /**
-     * @param array $json
+     * @param array<string, mixed> $json
      *
-     * @return Campaign
      * @throws \Exception
      */
-    public static function deserializeSingle(array $json)
+    public static function deserializeSingle(array $json): Campaign
     {
         $campaign = new Campaign();
         $campaign

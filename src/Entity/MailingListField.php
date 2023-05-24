@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Ideneal\EmailOctopus\Entity;
 
-
 /**
  * Class MailingListField
  *
@@ -20,110 +19,65 @@ namespace Ideneal\EmailOctopus\Entity;
  */
 class MailingListField
 {
-    const NUMBER = 'NUMBER';
-    const TEXT   = 'TEXT';
+    public const NUMBER = 'NUMBER';
+    public const TEXT = 'TEXT';
 
-    /**
-     * @var string
-     */
-    private $tag;
+    private string $tag;
+    private string $type;
+    private string $label;
+    private ?string $fallback = null;
 
-    /**
-     * @var string
-     */
-    private $type;
-
-    /**
-     * @var string
-     */
-    private $label;
-
-    /**
-     * @var string
-     */
-    private $fallback;
-
-    /**
-     * MailingListField constructor.
-     */
     public function __construct()
     {
         $this->type = self::TEXT;
     }
 
-    /**
-     * @return string
-     */
     public function getTag(): string
     {
         return $this->tag;
     }
 
-    /**
-     * @param string $tag
-     *
-     * @return MailingListField
-     */
-    public function setTag(string $tag): MailingListField
+    public function setTag(string $tag): self
     {
         $this->tag = $tag;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @param string $type
-     *
-     * @return MailingListField
-     */
-    public function setType(string $type): MailingListField
+    public function setType(string $type): self
     {
-        if (in_array($type, [self::NUMBER, self::TEXT])) {
+        if ($this->isValidType($type)) {
             $this->type = $type;
         }
         return $this;
     }
 
-    /**
-     * @return string
-     */
+    public function isValidType(string $type): bool
+    {
+        return \in_array($type, [self::NUMBER, self::TEXT], true);
+    }
+
     public function getLabel(): string
     {
         return $this->label;
     }
 
-    /**
-     * @param string $label
-     *
-     * @return MailingListField
-     */
-    public function setLabel(string $label): MailingListField
+    public function setLabel(string $label): self
     {
         $this->label = $label;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getFallback(): ?string
     {
         return $this->fallback;
     }
 
-    /**
-     * @param string $fallback
-     *
-     * @return MailingListField
-     */
-    public function setFallback(?string $fallback): MailingListField
+    public function setFallback(?string $fallback): self
     {
         $this->fallback = $fallback;
         return $this;

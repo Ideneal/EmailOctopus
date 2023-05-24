@@ -24,13 +24,13 @@ use Ideneal\EmailOctopus\Entity\MailingList;
 class MailingListSerializer extends ApiSerializer
 {
     /**
-     * @param array $json
+     * @param array<string, mixed> $json
      *
      * @return MailingList
      *
      * @throws \Exception
      */
-    public static function deserializeSingle(array $json)
+    public static function deserializeSingle(array $json): MailingList
     {
         $mailingList = new MailingList();
         $mailingList
@@ -40,7 +40,7 @@ class MailingListSerializer extends ApiSerializer
         ;
 
         if (isset($json['double_opt_in'])) {
-            $mailingList->setDoubleOptIn($json['double_opt_in']);
+            $mailingList->setDoubleOptIn((bool) $json['double_opt_in']);
         }
 
         if (isset($json['fields'])) {
@@ -58,10 +58,14 @@ class MailingListSerializer extends ApiSerializer
     /**
      * @param MailingList $object
      *
-     * @return array
+     * @return array<string, string>
      */
     public static function serialize($object): array
     {
+        if (!$object instanceof MailingList) {
+            throw new \InvalidArgumentException('Invalid object type. Expected MailingList.');
+        }
+
         return [
             'name' => $object->getName(),
         ];

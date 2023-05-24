@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Ideneal\EmailOctopus\Serializer;
 
-
 use Ideneal\EmailOctopus\Entity\MailingListField;
 
 /**
@@ -25,10 +24,14 @@ class MailingListFieldSerializer extends ApiSerializer
     /**
      * @param MailingListField $object
      *
-     * @return array
+     * @return array<string, string>
      */
     public static function serialize($object): array
     {
+        if (!$object instanceof MailingListField) {
+            throw new \InvalidArgumentException('Invalid object type. Expected MailingListField.');
+        }
+
         return [
             'label'    => $object->getLabel(),
             'tag'      => $object->getTag(),
@@ -38,11 +41,9 @@ class MailingListFieldSerializer extends ApiSerializer
     }
 
     /**
-     * @param array $json
-     *
-     * @return MailingListField
+     * @param array<string, string> $json
      */
-    public static function deserializeSingle(array $json)
+    public static function deserializeSingle(array $json): MailingListField
     {
         $field = new MailingListField();
         $field
