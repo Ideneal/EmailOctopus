@@ -13,4 +13,4 @@ update:
 	@$(PHP_CONT) composer update
 
 test:
-	@$(PHP_CONT) composer test
+	@$(PHP_CONT) composer run-script test
