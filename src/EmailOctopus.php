@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Ideneal\EmailOctopus;
 
+use Ideneal\EmailOctopus\Entity\Automation;
 use Ideneal\EmailOctopus\Entity\Campaign;
 use Ideneal\EmailOctopus\Entity\Contact;
 use Ideneal\EmailOctopus\Entity\MailingList;
@@ -39,6 +40,11 @@ class EmailOctopus
     public function __construct(string $apiKey)
     {
         $this->client = new ApiClient($apiKey);
+    }
+
+    public function startAutomation(Automation $automation): void
+    {
+        $this->client->post("automations/{$automation->getId()}/queue");
     }
 
     /**
