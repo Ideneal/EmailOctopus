@@ -13,4 +13,4 @@ update:
 	@$(PHP_CONT) composer update
 
 test:
-	@$(PHP_CONT) vendor/bin/phpunit
+	@$(PHP_CONT) composer test

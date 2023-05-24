@@ -206,4 +206,11 @@ class EmailOctopus
         $response = $this->client->get("campaigns/{$campaignId}");
         return CampaignSerializer::deserialize($response);
     }
+
+    public function setApiClient(ApiClient $client): self
+    {
+        $this->client = $client;
+
+        return $this;
+    }
 }
