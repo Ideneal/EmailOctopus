@@ -34,6 +34,7 @@ class ContactSerializer extends ApiSerializer
             ->setEmail($json['email_address'])
             ->setFields($json['fields'])
             ->setStatus($json['status'])
+            ->setTags($json['tags'])
             ->setCreatedAt(new \DateTime($json['created_at']))
         ;
 

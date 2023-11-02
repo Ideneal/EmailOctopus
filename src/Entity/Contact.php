@@ -27,6 +27,7 @@ class Contact
     private string $email;
     private array $fields = [];
     private ?string $status = null;
+    private array $tags = [];
     private \DateTimeInterface $createdAt;
 
     public function getId(): string
@@ -110,6 +111,23 @@ class Contact
             self::STATUS_SUBSCRIBED,
             self::STATUS_UNSUBSCRIBED,
         ], true);
+    }
+
+    public function getTags(): array
+    {
+        return $this->tags;
+    }
+
+    public function setTags(array $tags): self
+    {
+        $this->tags = $tags;
+        return $this;
+    }
+
+    public function addTag(string $key, string $value): self
+    {
+        $this->tags[$key] = $value;
+        return $this;
     }
 
     public function getCreatedAt(): \DateTimeInterface
