@@ -115,7 +115,19 @@ class Contact
 
     public function getTags(): array
     {
-        return $this->tags;
+        $newTags = [];
+        array_walk(
+            $this->tags,
+            function($val, $key) use (&$newTags)
+            {
+                if(is_numeric($key)){
+                    $newTags[$val]=true;
+                }else{
+                    $newTags[$key]=$val;
+                }
+            }
+        );
+        return $newTags;
     }
 
     public function setTags(array $tags): self
@@ -124,9 +136,21 @@ class Contact
         return $this;
     }
 
-    public function addTag(string $key, string $value): self
+    public function addTag(string $key): self
     {
-        $this->tags[$key] = $value;
+        if( !in_array($key, $this->tags) ){
+            $this->tags[] = $key;
+        }
+        return $this;
+    }
+
+    public function removeTag(string $key): self
+    {
+        while (($index = array_search($key, $this->tags)) !== false)
+        {
+            unset($this->tags[$index]);
+        }
+        $this->tags[$key] = false;
         return $this;
     }
 

@@ -51,10 +51,11 @@ class ContactSerializer extends ApiSerializer
         if (!$object instanceof Contact) {
             throw new \InvalidArgumentException('Invalid object type. Expected Contact.');
         }
-
+        
         $json = [
             'email_address' => $object->getEmail(),
             'fields'        => $object->getFields(),
+            'tags'        => $object->getTags(),
         ];
 
         if ($object->getStatus()) {

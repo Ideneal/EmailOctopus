@@ -32,6 +32,10 @@ class ContactSerializerTest extends ApiSerializerTestCase
                     'FirstName' => 'John',
                     'LastName'  => 'Doe',
                 ],
+                'tags'        => [
+                    'FreeTrialUser'  => true,
+                    'AccountConnected'  => false,
+                ],
                 'status'        => 'SUBSCRIBED',
                 'created_at'    => '2020-07-04T14:55:32+00:00',
             ],
@@ -46,6 +50,9 @@ class ContactSerializerTest extends ApiSerializerTestCase
             ->setFirstName('John')
             ->setLastName('Doe')
             ->setStatus(Contact::STATUS_SUBSCRIBED)
+            ->addTag('FreeTrialUser')
+            ->addTag('AccountConnected')
+            ->removeTag('AccountConnected')
         ;
 
         $json = ContactSerializer::serialize($contact);
@@ -58,6 +65,13 @@ class ContactSerializerTest extends ApiSerializerTestCase
         $this->assertArrayHasKey('FirstName', $json['fields']);
         $this->assertArrayHasKey('LastName', $json['fields']);
         $this->assertSame('john.doe@mail.com', $json['email_address']);
+        $this->assertIsArray($json['tags']);
+        $this->assertCount(2, $json['tags']);
+        $this->assertArrayHasKey('FreeTrialUser', $json['tags']);
+        $this->assertEquals(true, $json['tags']['FreeTrialUser']);
+        $this->assertArrayHasKey('AccountConnected', $json['tags']);
+        $this->assertEquals(false, $json['tags']['AccountConnected']);
+
     }
 
     /**
@@ -72,6 +86,8 @@ class ContactSerializerTest extends ApiSerializerTestCase
         $this->assertInstanceOf(\DateTimeInterface::class, $contact->getCreatedAt());
         $this->assertIsArray($contact->getFields());
         $this->assertCount(2, $contact->getFields());
+        $this->assertIsArray($contact->getTags());
+        $this->assertCount(2, $contact->getTags());
     }
 
     public function testJsonArrayDeserialization(): void
