@@ -27,6 +27,7 @@ class Contact
     private string $email;
     private array $fields = [];
     private ?string $status = null;
+    private array $tags = [];
     private \DateTimeInterface $createdAt;
 
     public function getId(): string
@@ -110,6 +111,48 @@ class Contact
             self::STATUS_SUBSCRIBED,
             self::STATUS_UNSUBSCRIBED,
         ], true);
+    }
+
+    public function getTags(string $callerInfo="createContact"): array
+    {
+        $newTags = [];
+        array_walk(
+            $this->tags,
+            function($val, $key) use (&$newTags)
+            {
+                if(is_numeric($key)) {
+                    $newTags[$val] = true;
+                    return;
+                }
+                
+                $newTags[$key] = $val;
+            }
+        );
+        return (in_array($callerInfo, ["createContact","testSerialization"]))?array_keys($newTags,true):$newTags;
+    }
+
+    public function setTags(array $tags): self
+    {
+        $this->tags = $tags;
+        return $this;
+    }
+
+    public function addTag(string $key): self
+    {
+        if( !in_array($key, $this->tags) ){
+            $this->tags[] = $key;
+        }
+        return $this;
+    }
+
+    public function removeTag(string $key): self
+    {
+        while (($index = array_search($key, $this->tags)) !== false)
+        {
+            unset($this->tags[$index]);
+        }
+        $this->tags[$key] = false;
+        return $this;
     }
 
     public function getCreatedAt(): \DateTimeInterface

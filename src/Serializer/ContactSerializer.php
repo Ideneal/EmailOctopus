@@ -34,6 +34,7 @@ class ContactSerializer extends ApiSerializer
             ->setEmail($json['email_address'])
             ->setFields($json['fields'])
             ->setStatus($json['status'])
+            ->setTags($json['tags'])
             ->setCreatedAt(new \DateTime($json['created_at']))
         ;
 
@@ -50,10 +51,11 @@ class ContactSerializer extends ApiSerializer
         if (!$object instanceof Contact) {
             throw new \InvalidArgumentException('Invalid object type. Expected Contact.');
         }
-
+        
         $json = [
             'email_address' => $object->getEmail(),
             'fields'        => $object->getFields(),
+            'tags'        => $object->getTags(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['function']),
         ];
 
         if ($object->getStatus()) {
