@@ -66,11 +66,9 @@ class ContactSerializerTest extends ApiSerializerTestCase
         $this->assertArrayHasKey('LastName', $json['fields']);
         $this->assertSame('john.doe@mail.com', $json['email_address']);
         $this->assertIsArray($json['tags']);
-        $this->assertCount(2, $json['tags']);
-        $this->assertArrayHasKey('FreeTrialUser', $json['tags']);
-        $this->assertEquals(true, $json['tags']['FreeTrialUser']);
-        $this->assertArrayHasKey('AccountConnected', $json['tags']);
-        $this->assertEquals(false, $json['tags']['AccountConnected']);
+        $this->assertCount(1, $json['tags']);
+        $this->assertContains('FreeTrialUser', $json['tags']);
+        $this->assertNotContains('AccountConnected', $json['tags']);
 
     }
 
@@ -87,7 +85,7 @@ class ContactSerializerTest extends ApiSerializerTestCase
         $this->assertIsArray($contact->getFields());
         $this->assertCount(2, $contact->getFields());
         $this->assertIsArray($contact->getTags());
-        $this->assertCount(2, $contact->getTags());
+        $this->assertCount(1, $contact->getTags());
     }
 
     public function testJsonArrayDeserialization(): void

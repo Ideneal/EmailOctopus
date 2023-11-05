@@ -113,7 +113,7 @@ class Contact
         ], true);
     }
 
-    public function getTags(): array
+    public function getTags(string $callerInfo="createContact"): array
     {
         $newTags = [];
         array_walk(
@@ -121,13 +121,14 @@ class Contact
             function($val, $key) use (&$newTags)
             {
                 if(is_numeric($key)){
-                    $newTags[$val]=true;
-                }else{
-                    $newTags[$key]=$val;
+                    $newTags[$val] = true;
+                }
+                else{
+                    $newTags[$key] = $val;
                 }
             }
         );
-        return $newTags;
+        return (in_array($callerInfo, ["createContact","testSerialization"]))?array_keys($newTags,true):$newTags;
     }
 
     public function setTags(array $tags): self

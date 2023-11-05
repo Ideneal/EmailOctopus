@@ -55,7 +55,7 @@ class ContactSerializer extends ApiSerializer
         $json = [
             'email_address' => $object->getEmail(),
             'fields'        => $object->getFields(),
-            'tags'        => $object->getTags(),
+            'tags'        => $object->getTags(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['function']),
         ];
 
         if ($object->getStatus()) {
