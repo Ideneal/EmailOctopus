@@ -120,12 +120,12 @@ class Contact
             $this->tags,
             function($val, $key) use (&$newTags)
             {
-                if(is_numeric($key)){
+                if(is_numeric($key)) {
                     $newTags[$val] = true;
+                    return;
                 }
-                else{
-                    $newTags[$key] = $val;
-                }
+                
+                $newTags[$key] = $val;
             }
         );
         return (in_array($callerInfo, ["createContact","testSerialization"]))?array_keys($newTags,true):$newTags;
